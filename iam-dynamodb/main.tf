@@ -9,8 +9,8 @@ terraform {
 
 data "aws_iam_policy_document" "this" {
   statement {
-    sid     = "DynamoDBTableAccess"
-    effect  = "Allow"
+    sid    = "DynamoDBTableAccess"
+    effect = "Allow"
     actions = [
       "dynamodb:BatchGetItem",
       "dynamodb:BatchWriteItem",
@@ -29,6 +29,6 @@ data "aws_iam_policy_document" "this" {
 
 resource "aws_iam_role_policy" "this" {
   name_prefix = "dynamodb-"
-  role   = var.role_id
-  policy = data.aws_iam_policy_document.this.json
+  role        = var.role_id
+  policy      = data.aws_iam_policy_document.this.json
 }

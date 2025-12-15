@@ -5,5 +5,5 @@
 ### format
 
 ```shell
-terraform fmt --write .
+terraform fmt --recursive .
 ```
