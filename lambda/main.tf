@@ -2,10 +2,11 @@ locals {
   prefix     = "${var.project_name}-"
   log_prefix = var.project_name
   suffix     = "-${var.aws_env}"
+  full_name  = "${local.prefix}${var.name}${local.suffix}"
 }
 
 resource "aws_lambda_function" "main" {
-  function_name = "${local.prefix}${var.name}${local.suffix}"
+  function_name = local.full_name
   role          = aws_iam_role.main.arn
   s3_bucket     = var.s3_bucket
   s3_key        = var.s3_object_key
@@ -51,27 +52,29 @@ resource "aws_cloudwatch_log_group" "main" {
 }
 
 resource "aws_cloudwatch_log_metric_filter" "error_logging" {
+  count          = var.alarm_topic_arn != null ? 1 : 0
   name           = "${local.prefix}${var.name}${local.suffix}-errors"
   log_group_name = aws_cloudwatch_log_group.main.name
   pattern        = "{$.level = \"ERROR\"}"
 
   metric_transformation {
-    name      = "${var.name}_error_count"
+    name      = "${local.full_name}_error_count"
     namespace = local.log_prefix
     value     = "1"
   }
 }
 
 resource "aws_cloudwatch_metric_alarm" "error_logging" {
+  count               = var.alarm_topic_arn != null ? 1 : 0
   alarm_name          = "${local.prefix}${var.name}${local.suffix}-errors"
   comparison_operator = "GreaterThanThreshold"
   evaluation_periods  = 1
-  metric_name         = "${var.name}_error_count"
+  metric_name         = "${local.full_name}_error_count"
   namespace           = "${local.log_prefix}/Lambda"
   period              = 60
   statistic           = "Sum"
   threshold           = 1
-  alarm_description   = "Triggers when ${var.name} has more than 1 error in a minute"
+  alarm_description   = "Triggers when ${local.full_name} has more than 1 error in a minute"
   treat_missing_data  = "notBreaching"
   alarm_actions       = [var.alarm_topic_arn]
 }

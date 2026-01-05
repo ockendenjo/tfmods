@@ -28,5 +28,6 @@ variable "aws_env" {
 }
 
 variable "alarm_topic_arn" {
-  type = string
+  type    = string
+  default = null
 }
