@@ -15,6 +15,11 @@ resource "aws_lambda_function" "main" {
   architectures = ["arm64"]
   memory_size   = 1024
   timeout       = 10
+
+  tracing_config {
+    mode = "Active"
+  }
+
   environment {
     variables = merge({
       AWS_ENV = var.aws_env
