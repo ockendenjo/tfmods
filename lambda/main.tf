@@ -50,6 +50,11 @@ resource "aws_iam_role_policy_attachment" "main" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 }
 
+resource "aws_iam_role_policy_attachment" "xray_write_only_access" {
+  role       = aws_iam_role.main.name
+  policy_arn = "arn:aws:iam::aws:policy/AWSXrayWriteOnlyAccess"
+}
+
 resource "aws_cloudwatch_log_group" "main" {
   name              = "/aws/lambda/${aws_lambda_function.main.function_name}"
   retention_in_days = 30
