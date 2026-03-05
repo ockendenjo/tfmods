@@ -3,7 +3,15 @@ locals {
   log_prefix = var.project_name
   suffix     = "-${var.aws_env}"
   full_name  = "${local.prefix}${var.name}${local.suffix}"
+  regions = {
+    "eu-west-1"  = "ew1"
+    "eu-north-1" = "en1"
+    "us-east-1"  = "ue1"
+  }
+  region_abbr = local.regions[data.aws_region.current.region]
 }
+
+data "aws_region" "current" {}
 
 resource "aws_lambda_function" "main" {
   function_name = local.full_name
@@ -28,7 +36,7 @@ resource "aws_lambda_function" "main" {
 }
 
 resource "aws_iam_role" "main" {
-  name = "${local.prefix}lambda-${var.name}${local.suffix}"
+  name = "${local.prefix}${local.region_abbr}-lambda-${var.name}${local.suffix}"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
