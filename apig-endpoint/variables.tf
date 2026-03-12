@@ -32,6 +32,7 @@ variable "authorizer_id" {
 }
 
 variable "authorizer_type" {
-  type    = string
-  default = null
+  type        = string
+  description = "Authorizer type: NONE | CUSTOM | AWS_IAM | COGNITO_USER_POOLS"
+  default     = null
 }
