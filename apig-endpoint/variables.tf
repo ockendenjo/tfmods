@@ -36,3 +36,8 @@ variable "authorizer_type" {
   description = "Authorizer type: NONE | CUSTOM | AWS_IAM | COGNITO_USER_POOLS"
   default     = null
 }
+
+variable "add_lambda_invoke_permissions" {
+  type    = bool
+  default = true
+}

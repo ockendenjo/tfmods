@@ -24,6 +24,7 @@ resource "aws_api_gateway_integration" "main" {
 }
 
 resource "aws_lambda_permission" "main" {
+  count         = var.add_lambda_invoke_permissions ? 1 : 0
   statement_id  = "AllowAPIGInvoke"
   action        = "lambda:InvokeFunction"
   function_name = var.lambda.function_name
