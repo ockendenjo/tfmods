@@ -23,7 +23,9 @@ data "aws_iam_policy_document" "this" {
       "dynamodb:Scan",
       "dynamodb:DescribeTable",
     ]
-    resources = var.dynamo_table_arns
+    resources = var.allow_index_use ? flatten([
+      for arn in var.dynamo_table_arns : [arn, "${arn}/index/*"]
+    ]) : var.dynamo_table_arns
   }
 }
 

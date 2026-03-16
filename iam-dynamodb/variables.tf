@@ -7,3 +7,8 @@ variable "role_id" {
   type        = string
   description = "Name or unique ID of the IAM role to attach the inline policy to."
 }
+
+variable "allow_index_use" {
+  type    = bool
+  default = false
+}
