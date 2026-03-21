@@ -31,3 +31,9 @@ variable "alarm_topic_arn" {
   type    = string
   default = null
 }
+
+variable "kms_key_arn" {
+  type        = string
+  description = "KMS Key ARN for encrypting Cloudwatch logs"
+  default     = null
+}

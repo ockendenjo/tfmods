@@ -67,6 +67,7 @@ resource "aws_cloudwatch_log_group" "main" {
   name              = "/aws/lambda/${aws_lambda_function.main.function_name}"
   retention_in_days = 30
   skip_destroy      = false
+  kms_key_id        = var.kms_key_arn
 }
 
 resource "aws_cloudwatch_log_metric_filter" "error_logging" {
