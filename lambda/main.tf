@@ -22,7 +22,7 @@ resource "aws_lambda_function" "main" {
   handler       = "bootstrap"
   architectures = ["arm64"]
   memory_size   = 1024
-  timeout       = 10
+  timeout       = var.timeout
 
   tracing_config {
     mode = "Active"

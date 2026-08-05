@@ -37,3 +37,9 @@ variable "kms_key_arn" {
   description = "KMS Key ARN for encrypting Cloudwatch logs"
   default     = null
 }
+
+variable "timeout" {
+  type        = number
+  description = "Lambda timeout"
+  default     = 10
+}
