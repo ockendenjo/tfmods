@@ -42,3 +42,9 @@ variable "dlq_message_retention_seconds" {
   description = "DLQ message retention period in seconds"
   default     = 1209600 # 14 days
 }
+
+variable "alarm_topic_arn" {
+  type        = string
+  description = "Alarm topic for notifications. Leave empty for no alarm"
+  default     = null
+}
