@@ -2,6 +2,14 @@ resource "aws_lambda_event_source_mapping" "this" {
   function_name           = var.lambda.function_name
   event_source_arn        = var.queue.queue_arn
   function_response_types = ["ReportBatchItemFailures"]
+  batch_size              = var.batch_size
+
+  dynamic "scaling_config" {
+    for_each = var.maximum_concurrency == null ? [] : [var.maximum_concurrency]
+    content {
+      maximum_concurrency = scaling_config.value
+    }
+  }
 }
 
 data "aws_iam_policy_document" "this" {

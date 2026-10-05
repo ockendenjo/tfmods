@@ -11,3 +11,13 @@ variable "queue" {
     dlq_arn   = string
   })
 }
+
+variable "batch_size" {
+  type    = number
+  default = 10
+}
+
+variable "maximum_concurrency" {
+  type    = number
+  default = null
+}
