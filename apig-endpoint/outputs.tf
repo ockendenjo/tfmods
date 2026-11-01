@@ -1,9 +1,9 @@
 output "path_part" {
-  value = aws_api_gateway_resource.main.path_part
+  value = var.resource_id != null ? "" : aws_api_gateway_resource.main[0].path_part
 }
 
 output "resource_id" {
-  value = aws_api_gateway_resource.main.id
+  value = var.resource_id != null ? "" : aws_api_gateway_resource.main[0].id
 }
 
 output "method_id" {
