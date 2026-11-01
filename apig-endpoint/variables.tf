@@ -41,8 +41,3 @@ variable "add_lambda_invoke_permissions" {
   type    = bool
   default = true
 }
-
-variable "resource_id" {
-  type    = string
-  default = null
-}
