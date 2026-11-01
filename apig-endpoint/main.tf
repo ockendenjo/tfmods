@@ -1,4 +1,5 @@
 resource "aws_api_gateway_resource" "main" {
+  count       = var.resource_id == null ? 1 : 0
   rest_api_id = var.rest_api.id
   parent_id   = var.parent_id != null ? var.parent_id : var.rest_api.root_resource_id
   path_part   = var.path
@@ -6,7 +7,7 @@ resource "aws_api_gateway_resource" "main" {
 
 resource "aws_api_gateway_method" "main" {
   rest_api_id   = var.rest_api.id
-  resource_id   = aws_api_gateway_resource.main.id
+  resource_id   = var.resource_id != null ? var.resource_id : aws_api_gateway_resource.main[0].id
   http_method   = var.http_method
   authorization = var.authorizer_id != null ? coalesce(var.authorizer_type, "CUSTOM") : "NONE"
   authorizer_id = var.authorizer_id
@@ -16,7 +17,7 @@ data "aws_region" "current" {}
 
 resource "aws_api_gateway_integration" "main" {
   rest_api_id             = var.rest_api.id
-  resource_id             = aws_api_gateway_resource.main.id
+  resource_id             = var.resource_id != null ? var.resource_id : aws_api_gateway_resource.main[0].id
   http_method             = aws_api_gateway_method.main.http_method
   integration_http_method = "POST"
   type                    = "AWS_PROXY"
